@@ -28,8 +28,10 @@ SECRET_KEY = '*t+##yrkx(i%bjtlk8=!fl7pah7bjqtb!umdn81%)5#+&ei+c('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "*"]
 
+URL_ROOT = "/"
 
 # Application definition
 
@@ -69,6 +71,7 @@ TEMPLATES = [
         # 'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
+                'config.settings.context_processors.common_variables',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
