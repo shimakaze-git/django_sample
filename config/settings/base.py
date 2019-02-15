@@ -42,19 +42,35 @@ INSTALLED_APPS = [
     'django.contrib.sessions',  # セッションフレームワーク
     'django.contrib.messages',  # メッセージフレームワーク
     'django.contrib.staticfiles',  # 静的ファイルの管理フレームワーク
+    'django.contrib.sites',  # 1つのウェブサイトに1つのSiteデータが割り当て
 
     # 'polls_app.polls',
     'polls_app.polls.apps.PollsConfig',
+
+    # 'polls_app.base_site'
+    'polls_app.base_site.apps.BaseSiteConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    # cache.UpdateCacheMiddleware, cache.FetchFromCacheMiddleware
+    # をキャッシュすることで、Djangoプロジェクト全体をキャッシュ
+
+
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # Cache
+
     'django.middleware.common.CommonMiddleware',
+
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # Cache
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -94,6 +110,14 @@ DATABASES = {
     }
 }
 
+# CACHES
+CACHES = {
+    'default': {
+        # Databaseへのキャッシュ
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -137,3 +161,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'polls_app/static')
 ]
+
+
+BASE_TITLE = 'shimakaze-git polls'
+BASE_DESCRIPTION = ''
+
+SITE_EMAIL = ''
+SITE_AUTHOR = 'shimakaze-git'
+
+# サイトマップフレームワークで使う変数
+SITE_ID = 1

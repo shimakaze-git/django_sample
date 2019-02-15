@@ -9,6 +9,9 @@ from django.utils import timezone
 from .models import Choice, Question
 
 
+from django.db.models import Avg, Max, Min
+
+
 class IndexView(generic.ListView):
     model = Question
     template_name = 'polls/index.html'
@@ -52,6 +55,7 @@ def index(request):
     context = {
         'latest_question_list': latest_question_list,
     }
+
     # return HttpResponse(template.render(context, request))
     # return HttpResponse(output)
     return render(request, 'polls/index.html', context)
@@ -70,7 +74,21 @@ def detail(request, question_id):
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/results.html', {'question': question})
+
+    max = Choice.objects.aggregate(Max('votes'))['votes__max']
+    min = Choice.objects.aggregate(Min('votes'))['votes__min']
+    avg = Choice.objects.aggregate(Avg('votes'))['votes__avg']
+
+    return render(
+        request,
+        'polls/results.html',
+        {
+            'question': question,
+            'max': max,
+            'min': min,
+            'avg': avg
+        }
+    )
 
 
 def vote(request, question_id):
