@@ -1,3 +1,2 @@
-./auth_sample/__pycache__
-./django_sample/__pycache__
-./db.sqlite3
+__pycache__
+db.sqlite3
