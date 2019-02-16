@@ -12,6 +12,10 @@ from .models import Choice, Question
 from django.db.models import Avg, Max, Min
 
 
+# class QuestionList(generic.ListView):
+#     model = Question
+
+
 class IndexView(generic.ListView):
     model = Question
     template_name = 'polls/index.html'
